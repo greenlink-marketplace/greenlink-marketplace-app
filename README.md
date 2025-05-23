@@ -1,31 +1,31 @@
-# 📱 GreenLink Marketplace — App (Mobile & Web)
+# 📱 GreenLink Marketplace — Aplicativo Mobile & Web
 
-Este repositório contém o aplicativo multiplataforma da plataforma **GreenLink Marketplace**, desenvolvido com **React Native**. O app tem como objetivo conectar pessoas, empresas e recicladores para promover trocas, vendas ou doações de materiais reutilizáveis, fortalecendo a economia circular e a sustentabilidade.
+Bem-vindo ao repositório do **GreenLink Marketplace App**, uma aplicação **multiplataforma** (Android, iOS e Web) desenvolvida com **React Native e Expo**. O GreenLink promove conexões entre pessoas, empresas e recicladores, incentivando **trocas, vendas e doações de materiais reutilizáveis**, fortalecendo a **economia circular** e a **sustentabilidade**.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-- [React Native](https://reactnative.dev/)
-- [Expo](https://expo.dev/)
-- [React Navigation](https://reactnavigation.org/)
-- [React Native Web](https://necolas.github.io/react-native-web/)
-- [Axios](https://axios-http.com/)
-- [TypeScript](https://www.typescriptlang.org/) (opcional, se usado)
-- Integração com API Django (repositório backend)
+* [React Native](https://reactnative.dev/)
+* [Expo](https://expo.dev/)
+* [React Navigation](https://reactnavigation.org/)
+* [React Native Web](https://necolas.github.io/react-native-web/)
+* [Axios](https://axios-http.com/)
+* [TypeScript](https://www.typescriptlang.org/) *(opcional)*
+* Integração com backend em **Django REST Framework**
 
 ---
 
 ## ⚙️ Como rodar o projeto localmente
 
-### 1. Clone o repositório:
+### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/seu-usuario/greenlink-marketplace-app.git
 cd greenlink-marketplace-app
 ```
 
-### 2. Instale as dependências:
+### 2. Instale as dependências
 
 ```bash
 npm install
@@ -33,19 +33,19 @@ npm install
 yarn install
 ```
 
-### 3. Inicie o projeto:
+### 3. Inicie o projeto
 
 ```bash
 npx expo start
 ```
-O comando abrirá o Expo Dev Tools no navegador. A partir dele, você pode rodar o app:
 
-Em um emulador Android ou iOS;
+A partir do Expo Dev Tools, é possível executar o app:
 
-Em um dispositivo físico (com o app Expo Go);
+* Em um emulador Android ou iOS;
+* Em um dispositivo físico com o app **Expo Go**;
+* No navegador (modo web).
 
-No navegador (modo web).
-
+---
 
 ## 📦 Estrutura do Projeto
 
@@ -54,35 +54,53 @@ greenlink-marketplace-app/
 ├── assets/             # Imagens e fontes
 ├── components/         # Componentes reutilizáveis
 ├── screens/            # Telas principais do app
-├── services/           # Configuração de chamadas à API
-├── navigation/         # Navegação do app
+├── services/           # Chamadas à API e configurações
+├── navigation/         # Sistema de navegação
 ├── App.js              # Entrada principal
 └── app.json            # Configuração do Expo
 ```
 
+---
+
 ## 🔗 Integração com o Backend
 
-O app se comunica com a API Django disponível no repositório greenlink-marketplace-backend.
+Este app se conecta com a **API Django** disponível em:
 
-Certifique-se de ajustar a URL base no serviço de API (services/api.js ou similar).
+[greenlink-marketplace-backend](https://github.com/seu-usuario/greenlink-marketplace-backend)
 
-## 📱 Funcionalidades planejadas
+Certifique-se de atualizar a URL base em `services/api.js` (ou `api.ts`) conforme o ambiente (desenvolvimento, homologação, produção).
 
-Cadastro e autenticação de usuários
+---
 
-Listagem e busca de materiais
+## 📱 Funcionalidades Planejadas
 
-Criação de anúncios
+* Cadastro e autenticação de usuários
+* Listagem e busca de materiais disponíveis
+* Criação e gerenciamento de anúncios
+* Sistema de trocas e recompensas verdes
+* Perfil de usuário e histórico de interações
 
-Sistema de trocas e recompensas verdes
-
-Perfil do usuário e histórico de interações
+---
 
 ## 🧪 Testes
 
-Testes automatizados e testes E2E serão adicionados em versões futuras.
+Testes unitários e E2E serão adicionados em versões futuras.
+
+---
 
 ## 👥 Contribuidores
 
-Rodrigo Cruz (@rodrig-crzz) — Desenvolvedor principal
-Mariana Moura (@ma-ar1) — Desenvolvedor principal
+* **Rodrigo Cruz** ([@rodrig-crzz](https://github.com/rodrig-crzz)) — Desenvolvedor principal
+* **Mariana Moura** ([@ma-ar1](https://github.com/ma-ar1)) — Desenvolvedora principal
+
+---
+
+## 📚 Recursos Úteis
+
+* [Documentação do Expo](https://docs.expo.dev/)
+* [Documentação do React Native](https://reactnative.dev/docs/getting-started)
+* [Tutorial Expo: Criando um app do zero](https://docs.expo.dev/tutorial/introduction/)
+
+---
+
+Vamos construir um futuro mais sustentável juntos! 🌱
