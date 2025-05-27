@@ -5,7 +5,87 @@ import { Stack, router } from 'expo-router';
 import { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const handleLogin = () => {
+    router.replace('/');
+  };
+
+  return (
+    <>
+      <Stack.Screen options={{ title: 'Cadastro' }} />
+      <ThemedView style={styles.container}>
+        {/* Imagem do logo */}
+        <Image
+          source={require('../../assets/images/LogoVersaoExetendida.png')}
+          style={styles.logo}
+        />
+        
+        <ThemedText
+          type="title"
+          style={{ color: '#000', marginBottom: 24, textAlign: 'center' }}
+        >
+          Faça seu Login
+        </ThemedText>
+
+<TextInput
+          placeholder="Nome"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+<TextInput
+          placeholder="Sobrenome"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+<TextInput
+          placeholder="Número de Celular"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+<TextInput
+          placeholder="CPF"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+<TextInput
+          placeholder="E-mail"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+<TextInput
+          placeholder="Senha"
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+          secureTextEntry
+        />
+
+        <Pressable style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </Pressable>
+      </ThemedView>
+    </>
+  );
+}
+export function LoginScreen() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -19,7 +99,7 @@ export default function LoginScreen() {
       <ThemedView style={styles.container}>
         {/* Imagem do logo */}
         <Image
-          source={require('/home/mariana/Documentos/greenlink-marketplace-app/assets/images/LogoVersaoExetendida.png')}
+          source={require('../../assets/images/LogoVersaoExetendida.png')}
           style={styles.logo}
         />
         
@@ -46,7 +126,7 @@ export default function LoginScreen() {
           secureTextEntry
         />
         <Pressable style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Entrar</Text>
+          <Text style={styles.buttonText}>Criar conta</Text>
         </Pressable>
       </ThemedView>
     </>
@@ -56,8 +136,8 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',  // elementos começam do topo
-    paddingTop: 70,                 // um pouco mais para baixo que antes
+    justifyContent: 'flex-start',
+    paddingTop: 20,
     gap: 16,
     paddingHorizontal: 24,
     backgroundColor: '#fff',
