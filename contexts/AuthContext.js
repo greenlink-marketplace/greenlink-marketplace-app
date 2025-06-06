@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react'
+import setHeaderAuthorization from '../services/headerAuthorization'
 // import * as SecureStore from 'expo-secure-store'
 
 const AuthContext = createContext()
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     userRole
   }) {
     //     await SecureStore.setItemAsync('token', token)
+    setHeaderAuthorization(tokenAcess)
     setIsVisitor(false)
     setTokenAcess(tokenAcess)
     setTokenRefresh(tokenRefresh)
