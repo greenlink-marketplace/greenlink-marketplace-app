@@ -19,12 +19,20 @@ export default function RootLayout() {
     <AuthProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack initialRouteName='index'>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(home)" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen name="register" options={{ headerShown: false }} />
-          <Stack.Screen name="pageNotFound" options={{ headerShown: false }} />
-          <Stack.Screen name="pageUserRoleUnknow" options={{ headerShown: false }} />
+          {[
+            "index",
+            "(home)",
+            "login",
+            "register",
+            "pageNotFound",
+            "pageUserRoleUnknow",
+            "product",
+          ].map((screen, idx) => (
+            <Stack.Screen
+              key={idx}
+              name={screen}
+              options={{ headerShown: false }} />
+          ))}
         </Stack>
       </ThemeProvider>
     </AuthProvider>
