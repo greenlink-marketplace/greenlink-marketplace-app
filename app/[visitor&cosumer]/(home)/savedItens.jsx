@@ -1,12 +1,15 @@
+import { Colors } from '@/constants/Colors'
+import HomeTabsIndexs from '@/constants/HomeTabsIndexs'
+import useAuthContext from '@/hooks/useAuthContext'
+import useHomeTabsContext from '@/hooks/useHomeTabsContext'
+import getSavedProductsList from '@/services/marketplace/getSavedProductsList'
 import { Redirect, useFocusEffect, useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import {
+    ActivityIndicator, Image, ScrollView,
+    Text, TouchableOpacity, View
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '../../constants/Colors'
-import HomeTabsIndexs from '../../constants/HomeTabsIndexs'
-import useAuthContext from '../../hooks/useAuthContext'
-import useHomeTabsContext from '../../hooks/useHomeTabsContext'
-import getSavedProductsList from '../../services/marketplace/getSavedProductsList'
 
 function ProductItem({
     url_images,
@@ -68,7 +71,6 @@ function ProductItem({
                     }}
                 >
                     <Image
-                        // source={"https://demofree.sirv.com/nope-not-here.jpg?w=150"}
                         source={url_images && url_images.length
                             ? url_images[0]
                             : require('@/assets/images/LogoGreenLink.png')}
@@ -129,7 +131,10 @@ function ProductItem({
                             fontSize: 15,
                             textAlign: 'right'
                         }}>
-                            R$ {(price_cents / 100.0).toFixed(2).toString().replace('.', ',')}
+                            R$ {(price_cents / 100.0)
+                                .toFixed(2)
+                                .toString()
+                                .replace('.', ',')}
                         </Text>
                     </View>
                 </View>
@@ -205,17 +210,16 @@ export default function SavedItensScreen() {
             // Esta função será executada toda vez que a tela focar
             setCurrentScreen(HomeTabsIndexs.savedItens)
             tryGetSevedProducts()
-
-            // // Opcional: Função de limpeza que é executada quando a tela desfoca
-            // return () => {
-            //     console.log('Tela desfocou.')
-            //     // Limpe qualquer coisa que você iniciou no efeito
-            // }
-        }, []) // Array de dependências vazio significa que a função só será criada uma vez
+        }, [])
+        // Array de dependências vazio significa 
+        //  que a função só será criada uma vez
     )
 
     if (isVisitor)
-        return <Redirect href={`/pageNotFound?page=${HomeTabsIndexs.savedItens}`} />
+        return (
+            <Redirect
+                href={`/pageNotFound?page=${HomeTabsIndexs.savedItens}`} />
+        )
 
     return (
         <SafeAreaView style={[

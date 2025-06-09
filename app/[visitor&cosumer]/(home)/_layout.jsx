@@ -1,12 +1,18 @@
+import { Colors } from '@/constants/Colors'
+import HomeTabsIndexs from '@/constants/HomeTabsIndexs'
+import { HomeTabsProvider } from '@/contexts/HomeTabsContext'
+import useAuthContext from '@/hooks/useAuthContext'
+import useHomeTabsContext from '@/hooks/useHomeTabsContext'
 import { Stack, Tabs, useRouter } from 'expo-router'
-import { Basket, BookmarkSimple, MapPin, Recycle, Ticket } from "phosphor-react-native"
-import { Image, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import {
+  Basket, BookmarkSimple, MapPin,
+  Recycle, Ticket
+} from "phosphor-react-native"
+import {
+  Image, Text, TouchableOpacity,
+  useWindowDimensions, View
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '../../constants/Colors'
-import HomeTabsIndexs from '../../constants/HomeTabsIndexs'
-import { HomeTabsProvider } from '../../contexts/HomeTabsContext'
-import useAuthContext from '../../hooks/useAuthContext'
-import useHomeTabsContext from '../../hooks/useHomeTabsContext'
 
 function CustomTabBarIcon({
   focused,

@@ -1,20 +1,18 @@
+import { Colors } from '@/constants/Colors'
+import HomeTabsIndexs from '@/constants/HomeTabsIndexs'
+import useAuthContext from '@/hooks/useAuthContext'
+import useHomeTabsContext from '@/hooks/useHomeTabsContext'
+import getProductList from "@/services/marketplace/getProductList"
 import axios from 'axios'
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router'
 import { SignIn, SignOut } from 'phosphor-react-native'
 import { useEffect, useState } from 'react'
 import {
-    ActivityIndicator,
-    Image,
-    ScrollView,
-    Text,
-    TextInput, TouchableOpacity, useWindowDimensions, View
+    ActivityIndicator, Image, ScrollView,
+    Text, TextInput, TouchableOpacity,
+    useWindowDimensions, View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '../../constants/Colors'
-import HomeTabsIndexs from '../../constants/HomeTabsIndexs'
-import useAuthContext from '../../hooks/useAuthContext'
-import useHomeTabsContext from '../../hooks/useHomeTabsContext'
-import getProductList from "../../services/marketplace/getProductList"
 
 function SearchBar() {
     const { width: widthScreen } = useWindowDimensions()
@@ -139,7 +137,6 @@ function ProductItem({
                     }}
                 >
                     <Image
-                        // source={"https://demofree.sirv.com/nope-not-here.jpg?w=150"}
                         source={url_images && url_images.length
                             ? url_images[0]
                             : require('@/assets/images/LogoGreenLink.png')}
@@ -200,7 +197,10 @@ function ProductItem({
                             fontSize: 15,
                             textAlign: 'right'
                         }}>
-                            R$ {(price_cents / 100.0).toFixed(2).toString().replace('.', ',')}
+                            R$ {(price_cents / 100.0)
+                                .toFixed(2)
+                                .toString()
+                                .replace('.', ',')}
                         </Text>
                     </View>
                 </View>
@@ -236,7 +236,9 @@ export default function ExploreScreen() {
     }
 
     const handleScroll = (event) => {
-        const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent
+        const {
+            layoutMeasurement, contentOffset, contentSize
+        } = event.nativeEvent
 
         const isScrolledToEnd =
             layoutMeasurement.height + contentOffset.y >= contentSize.height - 20 // 20 é uma margem de tolerância
@@ -247,7 +249,8 @@ export default function ExploreScreen() {
             // console.log('Usuário chegou ao final do ScrollView')
             // setIsLoadingNextPage(true)
             // getNextPageProducts()
-            // Aqui você pode disparar uma ação, como carregar mais conteúdo, etc.
+            // Aqui você pode disparar uma ação,
+            //  como carregar mais conteúdo, etc.
         }
     }
 
@@ -275,22 +278,6 @@ export default function ExploreScreen() {
                 //         }
                 //     ]
                 // }
-
-                // var newDataProducts = {
-                //     results: Array.from({ length: 8 }).map((_, idx) => ({
-                //         category: "Produto",
-                //         company: "Empresa",
-                //         created_at: "AAAA-MM-DDTHH:mm:ss.mmmmm-03:00",
-                //         description: "Descrição do produto: Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat maxime inventore ducimus qui cum, velit sapiente veniam natus iste animi magnam nulla adipisci, quia maiores officiis modi accusantium odit iusto.",
-                //         id: idx,
-                //         is_sustainable: false,
-                //         name: `Nome extendido do produto #${idx + 1}`,
-                //         price_cents: 500,
-                //         purchase_contact: "Contato",
-                //         quantity: 10
-                //     }))
-                // }
-                // console.log(newDataProducts)
                 if (dataResquest.results.length == 0)
                     handleMessageError("Nenhum produto encontrado")
                 else {

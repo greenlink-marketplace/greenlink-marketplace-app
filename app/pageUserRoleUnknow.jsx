@@ -37,7 +37,7 @@ export default function PageNotFound() {
             <TouchableOpacity
                 onPress={() => {
                     cleanCredetials()
-                    router.replace("/(home)")
+                    router.replace("[visitor&cosumer]/(home)")
                 }}
             >
                 <Text

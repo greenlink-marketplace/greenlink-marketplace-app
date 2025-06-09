@@ -280,7 +280,7 @@ export default function RegisterScreen() {
           userRole: userData.user.role
         })
         if (userData.user.role == UserRoleIndexs.consumer)
-          router.replace({ pathname: '/(home)' })
+          router.replace({ pathname: '[visitor&cosumer]/(home)' })
         else
           router.replace({
             pathname: `/pageUserRoleUnknow?userRole=${userData.user.role}`

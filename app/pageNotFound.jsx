@@ -34,7 +34,7 @@ export default function PageNotFound() {
                 {page}
             </Text>
             <TouchableOpacity
-                onPress={() => router.replace("/(home)")}
+                onPress={() => router.replace("[visitor&cosumer]/(home)")}
             >
                 <Text
                     style={{

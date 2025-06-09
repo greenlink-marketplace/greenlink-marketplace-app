@@ -1,9 +1,9 @@
+import { Colors } from '@/constants/Colors'
+import HomeTabsIndexs from '@/constants/HomeTabsIndexs'
+import useHomeTabsContext from '@/hooks/useHomeTabsContext'
 import { useFocusEffect } from 'expo-router'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '../../constants/Colors'
-import HomeTabsIndexs from '../../constants/HomeTabsIndexs'
-import useHomeTabsContext from '../../hooks/useHomeTabsContext'
 
 export default function LocationsScreen() {
     const { setCurrentScreen } = useHomeTabsContext()

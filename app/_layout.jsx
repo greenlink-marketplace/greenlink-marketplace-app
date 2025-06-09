@@ -21,7 +21,7 @@ export default function RootLayout() {
         <Stack initialRouteName='index'>
           {[
             "index",
-            "(home)",
+            "[visitor&cosumer]/(home)",
             "login",
             "register",
             "pageNotFound",
