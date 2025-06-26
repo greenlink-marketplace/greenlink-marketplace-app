@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [tokenRefresh, setTokenRefresh] = useState(null)
   const [userId, setUserId] = useState(null)
   const [userRole, setUserRole] = useState(null)
+  const [userData, setUserData] = useState(null)
 
   //   useEffect(() => {
   //     SecureStore.getItemAsync('token').then(setToken)
@@ -19,7 +20,8 @@ export const AuthProvider = ({ children }) => {
     tokenAcess,
     tokenRefresh,
     userId,
-    userRole
+    userRole,
+    userData = {}
   }) {
     //     await SecureStore.setItemAsync('token', token)
     setHeaderAuthorization(tokenAcess)
@@ -28,6 +30,11 @@ export const AuthProvider = ({ children }) => {
     setTokenRefresh(tokenRefresh)
     setUserId(userId)
     setUserRole(userRole)
+    setUserData(userData)
+  }
+
+  function updateUserData(newData) {
+    setUserData(newData)
   }
 
   function cleanCredetials() {
@@ -37,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     setTokenRefresh(null)
     setUserId(null)
     setUserRole(null)
+    setUserData(null)
   }
 
   return (
@@ -46,7 +54,9 @@ export const AuthProvider = ({ children }) => {
       tokenRefresh,
       userId,
       userRole,
+      userData,
       handleCredentials,
+      updateUserData,
       cleanCredetials
     }}>
       {children}

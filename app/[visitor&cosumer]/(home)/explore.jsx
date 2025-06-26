@@ -13,6 +13,8 @@ import {
     useWindowDimensions, View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import UserRoleIndexs from '../../../constants/UserRoleIndexs'
+import getConsumerRetreve from "../../../services/marketplace/getConsumerRetreve"
 
 function SearchBar() {
     const { width: widthScreen } = useWindowDimensions()
@@ -78,7 +80,7 @@ function SearchBar() {
 }
 
 function ProductItem({
-    url_images,
+    image,
     id,
     description = "",
     name,
@@ -129,16 +131,17 @@ function ProductItem({
                         // width: 120,
                         // width: '100%',
                         overflow: 'hidden',
-                        // borderWidth: 1,
+                        borderWidth: 1,
+                        borderColor: Colors.matteNeutralGray,
                         // borderRadius: 2,
                         // backgroundColor: "#2781",
                         flexDirection: 'row',
-                        flexWrap: 'wrap'
+                        flexWrap: 'wrap',
                     }}
                 >
                     <Image
-                        source={url_images && url_images.length
-                            ? url_images[0]
+                        source={image && image.length
+                            ? image
                             : require('@/assets/images/LogoGreenLink.png')}
                         style={{
                             overflow: 'hidden',
@@ -165,8 +168,8 @@ function ProductItem({
                             // minHeight: 60,
                             // backgroundColor: "#816",
                             padding: 2,
-                            borderWidth: 1,
-                            borderColor: Colors.matteNeutralGray
+                            // borderWidth: 1,
+                            // borderColor: Colors.matteNeutralGray
                         }}>
                         <Text style={{
                             fontSize: 14
@@ -226,6 +229,7 @@ export default function ExploreScreen() {
     const [urlNextPage, setUrlNextPage] = useState(null)
     // var scrollTemp = 0
     const [scrollTemp, setScrollTemp] = useState(0)
+    const { userId, userRole, updateUserData } = useAuthContext()
 
     function handleMessageError(messageError) {
         setErrorObj(prev => ({
@@ -377,8 +381,21 @@ export default function ExploreScreen() {
         }
     }, [dataProducts])
 
+    async function handleUserData() {
+        try {
+            // Fetch consumer data to update the context
+            const consumerData = await getConsumerRetreve(userId)
+            updateUserData(consumerData)
+        } catch (error) {
+            console.error("Erro ao buscar dados do consumidor:", error)
+            // Optionally, you can handle the error here, e.g., show a message to the user
+        }
+    }
+
     useFocusEffect(() => {
         setCurrentScreen(HomeTabsIndexs.explore)
+        if (userRole != null && userRole == UserRoleIndexs.consumer)
+            handleUserData()
     })
 
     return (
@@ -417,7 +434,7 @@ export default function ExploreScreen() {
                                     // alignItems: 'center'
                                 }}>
                                 {dataProducts.map(({
-                                    url_images = null,
+                                    image,
                                     id,
                                     description,
                                     name,
@@ -428,7 +445,8 @@ export default function ExploreScreen() {
                                         id={id}
                                         description={description}
                                         name={name}
-                                        price_cents={price_cents} />
+                                        price_cents={price_cents}
+                                        image={image} />
                                 ))}
                             </View>
                         ) : null}

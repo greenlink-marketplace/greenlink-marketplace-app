@@ -38,19 +38,33 @@ export default function LoginScreen() {
     setErrorObj(defaultErroObj)
 
     try {
+      var credentials = {}
+
       var resquestData = {
         login,
         password
       }
       const userData = await postTokenObtainPair(resquestData)
-      handleCredentials({
-        tokenAcess: userData.tokens.access,
-        tokenRefresh: userData.tokens.refresh,
-        userId: userData.user.id,
-        userRole: userData.user.role
-      })
-      if (userData.user.role == UserRoleIndexs.consumer)
+      credentials.tokenAcess = userData.tokens.access
+      credentials.tokenRefresh = userData.tokens.refresh
+      credentials.userId = userData.user.id
+      credentials.userRole = userData.user.role
+      if (userData.user.role == UserRoleIndexs.consumer) {
+        // try {
+        //   // Fetch consumer data to update the context
+        //   const consumerData = await getConsumerRetreve(userData.user.id)
+        //   credentials.userData = consumerData
+        // } catch (error) {
+        //   console.error("Erro ao buscar dados do consumidor:", error)
+        //   // Optionally, you can handle the error here, e.g., show a message to the user
+        // }
+        // Handle credentials in context
+        // This will update the context with the new credentials
+        handleCredentials(credentials)
         router.replace({ pathname: '[visitor&cosumer]/(home)' })
+      }
+      else if (userData.user.role == UserRoleIndexs.recyclingManager)
+        router.replace({ pathname: '[recyclingManager]' })
       else
         router.replace({
           pathname: `/pageUserRoleUnknow?userRole=${userData.user.role}`

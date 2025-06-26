@@ -5,11 +5,13 @@ import useAuthContext from '@/hooks/useAuthContext'
 import useHomeTabsContext from '@/hooks/useHomeTabsContext'
 import { Stack, Tabs, useRouter } from 'expo-router'
 import {
-  Basket, BookmarkSimple, MapPin,
+  Basket, BookmarkSimple,
+  Coins,
+  MapPin,
   Recycle, Ticket
 } from "phosphor-react-native"
 import {
-  Image, Text, TouchableOpacity,
+  Image, Platform, Text, TouchableOpacity,
   useWindowDimensions, View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -74,7 +76,7 @@ function CustomTabBarIcon({
   )
 }
 
-function CustomTabBarBottom({ isVisitor }) {
+function CustomTabBarBottom({ isVisitor, isWeb }) {
   return (
     <Tabs screenOptions={{
       headerShown: false,
@@ -153,6 +155,9 @@ function CustomTabBarBottom({ isVisitor }) {
       <Tabs.Screen
         name="locations"
         options={{
+          href: isWeb
+            ? null
+            : '[visitor&cosumer]/(home)/locations',
           tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
               name={HomeTabsIndexs.locations}
@@ -165,7 +170,7 @@ function CustomTabBarBottom({ isVisitor }) {
   )
 }
 
-function CustomTabBarLeth({ isVisitor }) {
+function CustomTabBarLeth({ isVisitor, isWeb, green_credit_balance }) {
   const { width: widthScreen } = useWindowDimensions()
   const compressedVersion = widthScreen < 800
   const { currentScreen } = useHomeTabsContext()
@@ -177,17 +182,16 @@ function CustomTabBarLeth({ isVisitor }) {
   }
 
   const buttonsValues = isVisitor
-    ? [
-      HomeTabsIndexs.explore,
-      HomeTabsIndexs.locations
-    ]
+    ? [HomeTabsIndexs.explore]
     : [
       HomeTabsIndexs.explore,
       HomeTabsIndexs.savedItens,
       HomeTabsIndexs.coupons,
       HomeTabsIndexs.historic,
-      HomeTabsIndexs.locations
     ]
+
+  if (!isWeb)
+    buttonsValues.push(HomeTabsIndexs.locations)
 
   return (
     <SafeAreaView
@@ -205,6 +209,27 @@ function CustomTabBarLeth({ isVisitor }) {
         padding: 20,
         rowGap: 30
       }}>
+        {green_credit_balance != null && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              flexDirection: 'row',
+            }}>
+            <Coins
+              size={22}
+              color={Colors.naturalLightYellow}
+              weight='duotone' />
+            <Text
+              style={{
+                fontSize: 14,
+                color: Colors.naturalLightYellow,
+              }}>
+              {green_credit_balance}
+            </Text>
+          </View>
+        )}
         <Image
           source={require('@/assets/images/LogoGreenLink.png')}
           style={{
@@ -256,13 +281,18 @@ function CustomTabBarLeth({ isVisitor }) {
 
 export default function HomeLayout() {
   const { width: widthScreen } = useWindowDimensions()
-  const { isVisitor } = useAuthContext()
+  const { isVisitor, userData } = useAuthContext()
 
   return (
     <HomeTabsProvider>
       {widthScreen > 600
-        ? <CustomTabBarLeth isVisitor={isVisitor} />
-        : <CustomTabBarBottom isVisitor={isVisitor} />
+        ? <CustomTabBarLeth
+          isVisitor={isVisitor}
+          green_credit_balance={userData?.green_credit_balance}
+          isWeb={Platform.OS === "web"} />
+        : <CustomTabBarBottom
+          isVisitor={isVisitor}
+          isWeb={Platform.OS === "web"} />
       }
     </HomeTabsProvider>
   )

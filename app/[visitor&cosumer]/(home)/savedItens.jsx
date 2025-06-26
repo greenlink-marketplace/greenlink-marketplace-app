@@ -6,85 +6,88 @@ import getSavedProductsList from '@/services/marketplace/getSavedProductsList'
 import { Redirect, useFocusEffect, useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
 import {
-    ActivityIndicator, Image, ScrollView,
-    Text, TouchableOpacity, View
+  ActivityIndicator, Image, ScrollView,
+  Text, TouchableOpacity, View
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function ProductItem({
-    url_images,
-    id,
-    description = "",
-    name,
-    price_cents,
+  image,
+  id,
+  description = "",
+  name,
+  price_cents,
 }) {
-    const router = useRouter()
-    const widthImagePx = 150
+  const router = useRouter()
+  const widthImagePx = 150
 
-    function descriptionFormated() {
-        const lengthDescripton = 60
-        if (description.length > lengthDescripton)
-            return description.slice(0, lengthDescripton) + "..."
-        else
-            return description
-    }
+  function descriptionFormated() {
+    const lengthDescripton = 60
+    if (description.length > lengthDescripton)
+      return description.slice(0, lengthDescripton) + "..."
+    else
+      return description
+  }
 
-    function goProductScreen() {
-        router.push({
-            pathname: "/product",
-            params: { id }
-        })
-    }
+  function goProductScreen() {
+    router.push({
+      pathname: "/product",
+      params: { id }
+    })
+  }
 
-    return (
+  return (
+    <View
+      style={{
+        // flex: 1 120,
+        // alignContent: 'center',
+        flexGrow: 1,
+        // width: 120,
+        flexBasis: widthImagePx,
+        maxWidth: 320,
+        // maxWidth: 180
+        // maxWidth: 120,
+        // backgroundColor
+        alignItems: 'center',
+      }}>
+      <TouchableOpacity
+        onPress={goProductScreen}
+        style={{
+          width: '100%',
+
+        }}>
         <View
-            style={{
-                // flex: 1 120,
-                // alignContent: 'center',
-                flexGrow: 1,
-                // width: 120,
-                flexBasis: widthImagePx,
-                maxWidth: 320,
-                // maxWidth: 180
-                // maxWidth: 120,
-                // backgroundColor
-                alignItems: 'center',
-            }}>
-            <TouchableOpacity
-                onPress={goProductScreen}
-                style={{
-                    width: '100%',
+          style={{
+            // flex: 1,
+            // height: 120,
+            // width: 120,
+            // width: '100%',
+            overflow: 'hidden',
+            // borderWidth: 1,
+            // borderRadius: 2,
+            // backgroundColor: "#2781",
+            flexDirection: 'row',
+            flexWrap: 'wrap',
 
-                }}>
-                <View
-                    style={{
-                        // flex: 1,
-                        // height: 120,
-                        // width: 120,
-                        // width: '100%',
-                        overflow: 'hidden',
-                        // borderWidth: 1,
-                        // borderRadius: 2,
-                        // backgroundColor: "#2781",
-                        flexDirection: 'row',
-                        flexWrap: 'wrap'
-                    }}
-                >
-                    <Image
-                        source={url_images && url_images.length
-                            ? url_images[0]
-                            : require('@/assets/images/LogoGreenLink.png')}
-                        style={{
-                            overflow: 'hidden',
-                            flexGrow: 1,
-                            flexBasis: widthImagePx,
-                            // maxWidth: 140,
-                            height: 120,
-                            // width: 120,
-                            backgroundColor: Colors.matteNeutralGray
-                        }}
-                    />
-                    {/* <View
+            borderWidth: 1,
+            borderColor: Colors.matteNeutralGray
+          }}
+        >
+          <Image
+            source={image && image.length
+              ? image
+              : require('@/assets/images/LogoGreenLink.png')}
+            style={{
+              overflow: 'hidden',
+              flexGrow: 1,
+              flexBasis: widthImagePx,
+              // maxWidth: 140,
+              height: 120,
+              // width: 120,
+              backgroundColor: Colors.matteNeutralGray
+            }}
+          />
+          {/* <View
                         style={{
                             flexBasis: widthImagePx,
                             flexGrow: 1,
@@ -92,207 +95,206 @@ function ProductItem({
                             height: 120,
                             backgroundColor: '#985'
                         }} /> */}
-                    <View
-                        style={{
-                            flexGrow: 10,
-                            flexBasis: 100,
-                            // minHeight: 60,
-                            // backgroundColor: "#816",
-                            padding: 2,
-                            borderWidth: 1,
-                            borderColor: Colors.matteNeutralGray
-                        }}>
-                        <Text style={{
-                            fontSize: 14
-                        }}>
-                            {name}
-                        </Text>
-                        {/* <Text style={{
+          <View
+            style={{
+              flexGrow: 10,
+              flexBasis: 100,
+              // minHeight: 60,
+              // backgroundColor: "#816",
+              padding: 2,
+            }}>
+            <Text style={{
+              fontSize: 14
+            }}>
+              {name}
+            </Text>
+            {/* <Text style={{
                             fontSize: 12
                         }}>
                             {company}
                         </Text> */}
-                        <View
-                            style={{
-                                overflow: 'hidden',
-                                // height: 0,
-                                flexGrow: 1,
-                                flexBasis: 0
-                                // flexGrow: 1,
-                            }}>
-                            <Text
-                                style={{
-                                    fontSize: 10
-                                }}>
-                                {descriptionFormated()}
-                            </Text>
-                        </View>
-                        <Text style={{
-                            fontSize: 15,
-                            textAlign: 'right'
-                        }}>
-                            R$ {(price_cents / 100.0)
-                                .toFixed(2)
-                                .toString()
-                                .replace('.', ',')}
-                        </Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
+            <View
+              style={{
+                overflow: 'hidden',
+                // height: 0,
+                flexGrow: 1,
+                flexBasis: 0
+                // flexGrow: 1,
+              }}>
+              <Text
+                style={{
+                  fontSize: 10
+                }}>
+                {descriptionFormated()}
+              </Text>
+            </View>
+            <Text style={{
+              fontSize: 15,
+              textAlign: 'right'
+            }}>
+              R$ {(price_cents / 100.0)
+                .toFixed(2)
+                .toString()
+                .replace('.', ',')}
+            </Text>
+          </View>
         </View>
-    )
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 export default function SavedItensScreen() {
-    const { setCurrentScreen } = useHomeTabsContext()
-    const { isVisitor } = useAuthContext()
-    // const {} = useAuthContext()
+  const { setCurrentScreen } = useHomeTabsContext()
+  const { isVisitor } = useAuthContext()
+  // const {} = useAuthContext()
 
-    const router = useRouter()
-    const [isLoadingProducts, setIsLoadingProducts] = useState(true)
-    // const [isLoadingNextPage, setIsLoadingNextPage] = useState(false)
-    const indexIsError = "isError"
-    const indexErrorMessage = "errorMessage"
-    const defaultErrorObj = {
-        [indexIsError]: false,
-        [indexErrorMessage]: null
-    }
-    const [errorObj, setErrorObj] = useState(defaultErrorObj)
-    const [dataProducts, setDataProducts] = useState(null)
-    const [urlNextPage, setUrlNextPage] = useState(null)
-    // var scrollTemp = 0
-    const [scrollTemp, setScrollTemp] = useState(0)
+  const router = useRouter()
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true)
+  // const [isLoadingNextPage, setIsLoadingNextPage] = useState(false)
+  const indexIsError = "isError"
+  const indexErrorMessage = "errorMessage"
+  const defaultErrorObj = {
+    [indexIsError]: false,
+    [indexErrorMessage]: null
+  }
+  const [errorObj, setErrorObj] = useState(defaultErrorObj)
+  const [dataProducts, setDataProducts] = useState(null)
+  const [urlNextPage, setUrlNextPage] = useState(null)
+  // var scrollTemp = 0
+  const [scrollTemp, setScrollTemp] = useState(0)
 
-    async function tryGetSevedProducts() {
-        setIsLoadingProducts(true)
-        try {
-            const responseData = await getSavedProductsList()
-            // console.log(responseData)
-            setDataProducts(responseData.map(item => item.product))
-        } catch (error) {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    handleMessageError("Credenciais inválidas")
-                } else if (error.response.status === 403) {
-                    handleMessageError("Usuário desativado")
-                } else if (error.response.status === 404) {
-                    handleMessageError("API não encontrada")
-                } else {
-                    handleMessageError("Requisição feita mas sem sucess")
-                }
-            } else if (error.request) {
-                // console.log("Sem resposta do servidor")
-                handleMessageError("Sem resposta do servidor")
-            } else {
-                // Error in request configures
-                // console.log(`Erro inesperado: ${error.message}`)
-                handleMessageError(`Erro inesperado: ${error.message}`)
-            }
+  async function tryGetSevedProducts() {
+    setIsLoadingProducts(true)
+    try {
+      const responseData = await getSavedProductsList()
+      // console.log(responseData)
+      setDataProducts(responseData.map(item => item.product))
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          handleMessageError("Credenciais inválidas")
+        } else if (error.response.status === 403) {
+          handleMessageError("Usuário desativado")
+        } else if (error.response.status === 404) {
+          handleMessageError("API não encontrada")
+        } else {
+          handleMessageError("Requisição feita mas sem sucess")
         }
+      } else if (error.request) {
+        // console.log("Sem resposta do servidor")
+        handleMessageError("Sem resposta do servidor")
+      } else {
+        // Error in request configures
+        // console.log(`Erro inesperado: ${error.message}`)
+        handleMessageError(`Erro inesperado: ${error.message}`)
+      }
     }
+  }
 
-    useEffect(() => {
-        if (dataProducts != null && isLoadingProducts) {
-            setIsLoadingProducts(false)
-        }
-    }, [dataProducts])
+  useEffect(() => {
+    if (dataProducts != null && isLoadingProducts) {
+      setIsLoadingProducts(false)
+    }
+  }, [dataProducts])
 
-    // useEffect(() => {
-    //     tryGetSevedProducts()
-    // }, [])
+  // useEffect(() => {
+  //     tryGetSevedProducts()
+  // }, [])
 
-    // useFocusEffect(() => {
-    //     setCurrentScreen(HomeTabsIndexs.savedItens)
-    // })
+  // useFocusEffect(() => {
+  //     setCurrentScreen(HomeTabsIndexs.savedItens)
+  // })
 
-    useFocusEffect(
-        useCallback(() => {
-            // Esta função será executada toda vez que a tela focar
-            setCurrentScreen(HomeTabsIndexs.savedItens)
-            tryGetSevedProducts()
-        }, [])
-        // Array de dependências vazio significa 
-        //  que a função só será criada uma vez
-    )
+  useFocusEffect(
+    useCallback(() => {
+      // Esta função será executada toda vez que a tela focar
+      setCurrentScreen(HomeTabsIndexs.savedItens)
+      tryGetSevedProducts()
+    }, [])
+    // Array de dependências vazio significa 
+    //  que a função só será criada uma vez
+  )
 
-    if (isVisitor)
-        return (
-            <Redirect
-                href={`/pageNotFound?page=${HomeTabsIndexs.savedItens}`} />
-        )
-
+  if (isVisitor)
     return (
-        <SafeAreaView style={[
-            {
-                flex: 1,
-                backgroundColor: Colors.snowWhite
-            },
-        ]}>
-            <ScrollView
-            // onScroll={handleScroll}
-            // scrollEventThrottle={16}
-            >
-                {errorObj[indexIsError]
-                    ? (
-                        <Text
-                            style={{
-                                marginTop: 100,
-                                flexGrow: 1,
-                                textAlign: 'center',
-                                fontSize: 18
-                            }}>
-                            {`${errorObj[indexErrorMessage]}! :(`}
-                        </Text>
-                    ) : dataProducts != null && dataProducts.length == 0
-                        ? (
-                            <Text
-                                style={{
-                                    fontSize: 20,
-                                    alignSelf: 'center',
-                                    marginTop: 30
-                                }}>
-                                Nenhum Item foi Salvo, ainda!
-                            </Text>
-                        ) : dataProducts != null && dataProducts.length > 0
-                            ? (
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-evenly',
-                                        // alignItems: 'center',
-                                        flexWrap: 'wrap',
-                                        gap: 20,
-                                        padding: 20
-                                        // alignItems: 'center'
-                                    }}>
-                                    {dataProducts.map(({
-                                        url_images = null,
-                                        id,
-                                        description,
-                                        name,
-                                        price_cents,
-                                    }, idx) => (
-                                        <ProductItem
-                                            key={idx}
-                                            id={id}
-                                            description={description}
-                                            name={name}
-                                            price_cents={price_cents} />
-                                    ))}
-                                </View>
-                            ) : null}
-                {isLoadingProducts
-                    ? (
-                        <ActivityIndicator
-                            style={{
-                                marginVertical: 100
-                            }}
-                            size={50}
-                            color={Colors.mediumGreenProfessional}
-                        />
-                    ) : null}
-            </ScrollView>
-        </SafeAreaView>
+      <Redirect
+        href={`/pageNotFound?page=${HomeTabsIndexs.savedItens}`} />
     )
+
+  return (
+    <SafeAreaView style={[
+      {
+        flex: 1,
+        backgroundColor: Colors.snowWhite
+      },
+    ]}>
+      <ScrollView
+      // onScroll={handleScroll}
+      // scrollEventThrottle={16}
+      >
+        {errorObj[indexIsError]
+          ? (
+            <Text
+              style={{
+                marginTop: 100,
+                flexGrow: 1,
+                textAlign: 'center',
+                fontSize: 18
+              }}>
+              {`${errorObj[indexErrorMessage]}! :(`}
+            </Text>
+          ) : dataProducts != null && dataProducts.length == 0
+            ? (
+              <Text
+                style={{
+                  fontSize: 20,
+                  alignSelf: 'center',
+                  marginTop: 30
+                }}>
+                Nenhum Item foi Salvo, ainda!
+              </Text>
+            ) : dataProducts != null && dataProducts.length > 0
+              ? (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    // alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: 20,
+                    padding: 20
+                    // alignItems: 'center'
+                  }}>
+                  {dataProducts.map(({
+                    image,
+                    id,
+                    description,
+                    name,
+                    price_cents,
+                  }, idx) => (
+                    <ProductItem
+                      key={idx}
+                      id={id}
+                      description={description}
+                      name={name}
+                      price_cents={price_cents}
+                      image={image} />
+                  ))}
+                </View>
+              ) : null}
+        {isLoadingProducts
+          ? (
+            <ActivityIndicator
+              style={{
+                marginVertical: 100
+              }}
+              size={50}
+              color={Colors.mediumGreenProfessional}
+            />
+          ) : null}
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
