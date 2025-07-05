@@ -63,6 +63,8 @@ export default function LoginScreen() {
         handleCredentials(credentials)
         router.replace({ pathname: '[visitor&cosumer]/(home)' })
       }
+      else if (userData.user.role == UserRoleIndexs.company)
+        router.replace({ pathname: '[company]' })
       else if (userData.user.role == UserRoleIndexs.recyclingManager)
         router.replace({ pathname: '[recyclingManager]' })
       else

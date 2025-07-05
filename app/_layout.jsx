@@ -22,6 +22,7 @@ export default function RootLayout() {
           {[
             "index",
             "[visitor&cosumer]/(home)",
+            "[company]",
             "[recyclingManager]",
             "login",
             "register",

@@ -14,6 +14,7 @@ import { Colors } from "../constants/Colors";
 import useAuthContext from "../hooks/useAuthContext";
 import deleteSavedProduct from "../services/marketplace/deleteSavedProduct";
 import getProductDetail from "../services/marketplace/getProductDetail";
+import getProductsRelated from "../services/marketplace/getProductsRelated";
 import postCouponGenerate from "../services/marketplace/postCouponGenerate";
 import postSavedProductAdd from "../services/marketplace/postSavedProductsAdd";
 
@@ -189,6 +190,8 @@ export default function ProductScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [couponConfirmation, setCouponConfirmation] = useState(false);
   const [isLoadingGenerateCoupon, setIsLoadingGenerateCoupon] = useState(false)
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
 
   function handleMessageError(messageError) {
     // setErrorObj(prev => ({
@@ -241,6 +244,7 @@ export default function ProductScreen() {
 
   useEffect(() => {
     tryProductDetailsRetrieve()
+    handleProductsRelated()
   }, [])
 
   useEffect(() => {
@@ -321,6 +325,38 @@ export default function ProductScreen() {
       }
     }
     setIsLoadingGenerateCoupon(false)
+  }
+
+  async function handleProductsRelated() {
+    try {
+      // await postCouponGenerate(id, green_credit_amount)
+      const response = await getProductsRelated(id)
+      setRelatedProducts(response)
+      // setModalVisible(false)
+      // setCouponConfirmation(true)
+      // setTimeout(() => {
+      //   setCouponConfirmation(false)
+      // }, 2000)
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          handleMessageError("Credenciais inválidas")
+        } else if (error.response.status === 403) {
+          handleMessageError("Usuário desativado")
+        } else if (error.response.status === 404) {
+          handleMessageError("API não encontrada")
+        } else {
+          handleMessageError("Requisição feita mas sem sucess")
+        }
+      } else if (error.request) {
+        // console.log("Sem resposta do servidor")
+        handleMessageError("Sem resposta do servidor")
+      } else {
+        // Error in request configures
+        // console.log(`Erro inesperado: ${error.message}`)
+        handleMessageError(`Erro inesperado: ${error.message}`)
+      }
+    }
   }
 
   return (
@@ -493,6 +529,32 @@ export default function ProductScreen() {
                             Descrição: </Text>
                           {dataProduct.description}
                         </Text>
+                        {/* <View style={{ marginTop: 20, gap: 6 }}> */}
+                        <Text>
+                          <Text style={{ fontWeight: 'bold' }}>Categoria: </Text>
+                          {dataProduct.category}
+                        </Text>
+                        <Text>
+                          <Text style={{ fontWeight: 'bold' }}>Quantidade disponível: </Text>
+                          {dataProduct.quantity}
+                        </Text>
+                        <Text>
+                          <Text style={{ fontWeight: 'bold' }}>Contato para compra: </Text>
+                          {dataProduct.purchase_contact}
+                        </Text>
+                        <Text>
+                          <Text style={{ fontWeight: 'bold' }}>Produto sustentável: </Text>
+                          {dataProduct.is_sustainable ? 'Sim' : 'Não'}
+                        </Text>
+                        <Text>
+                          <Text style={{ fontWeight: 'bold' }}>Publicado em: </Text>
+                          {new Date(dataProduct.created_at).toLocaleDateString('pt-BR', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                          })}
+                        </Text>
+                        {/* </View> */}
                       </View>
                     </View>
                     <View
@@ -500,33 +562,82 @@ export default function ProductScreen() {
                         overflow: 'hidden',
                         backgroundColor: Colors.mediumGreenProfessional,
                         borderRadius: 10,
-                        padding: 10
-                      }}>
+                        padding: 10,
+                        marginTop: 30,
+                      }}
+                    >
                       <Text
                         style={{
                           color: Colors.snowWhite,
-                          fontWeight: '500'
-                        }}>
+                          fontWeight: '500',
+                          fontSize: 16,
+                          marginBottom: 10,
+                        }}
+                      >
                         Itens Relacionados
                       </Text>
-                      <View
-                        style={{
+
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{
                           flexDirection: 'row',
-                          flexWrap: 'wrap',
-                          padding: 10,
                           gap: 10,
-                        }}>
-                        {Array.from({ length: 30 }).map((_, idx) => (
-                          <View
-                            key={idx}
+                          paddingBottom: 10,
+                        }}
+                      >
+                        {relatedProducts.map((item) => (
+                          <TouchableOpacity
+                            onPress={() => router.push({
+                              pathname: "/product",
+                              params: { id: item.id }
+                            })}
+                            key={item.id}
                             style={{
-                              flex: 1,
-                              minWidth: 120,
-                              height: 120,
-                              backgroundColor: '#231'
-                            }} />
+                              width: 140,
+                              backgroundColor: Colors.snowWhite,
+                              borderRadius: 8,
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <View style={{ height: 100, backgroundColor: Colors.matteNeutralGray }}>
+                              <Image
+                                source={
+                                  item.image
+                                    ? { uri: item.image }
+                                    : require('@/assets/images/LogoGreenLink.png')
+                                }
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                }}
+                                resizeMode="cover"
+                              />
+                            </View>
+                            <View style={{ padding: 8 }}>
+                              <Text
+                                numberOfLines={1}
+                                style={{
+                                  fontWeight: 'bold',
+                                  fontSize: 14,
+                                  color: Colors.mediumGreenProfessional,
+                                }}
+                              >
+                                {item.name}
+                              </Text>
+                              <Text
+                                numberOfLines={2}
+                                style={{ fontSize: 12, color: '#333' }}
+                              >
+                                {item.description}
+                              </Text>
+                              <Text style={{ fontWeight: 'bold', marginTop: 4 }}>
+                                R$ {(item.price_cents / 100).toFixed(2).replace('.', ',')}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
                         ))}
-                      </View>
+                      </ScrollView>
                     </View>
                   </>
                 )}
